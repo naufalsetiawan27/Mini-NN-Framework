@@ -11,7 +11,8 @@ class FC():
          self.bias = rng.uniform(-5, 5, (n_output, 1))
 
     def forward(self, input:np.ndarray) -> np.ndarray:
-         
-         z = self.weights @ input + self.bias
-         
-         return z
+          # z = self.weights @ input + self.bias
+          
+          # batch forward
+          z = input @ self.weights.T + self.bias
+          return z
