@@ -6,5 +6,5 @@ class Sigmoid(Activation):
         self.a = 1 / (1 + np.exp(-z))
         return self.a
     
-    def backward(self, loss: np.ndarray) -> np.ndarray:
-        return (self.a * (1- self.a)) * loss
+    def backward(self, grad: np.ndarray) -> np.ndarray:
+        return (self.a * (1- self.a)) * grad
