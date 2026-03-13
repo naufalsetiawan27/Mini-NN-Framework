@@ -5,13 +5,13 @@ class MLP(NeuralNetwork):
     def __init__(self, objects: list[object]):
         self.objects = objects
     
-    def forward_pass(self, input: np.ndarray) -> np.ndarray: 
-        output = input
+    def forward_pass(self, inp: np.ndarray) -> np.ndarray: 
+        out = inp
 
         for object in self.objects:
-            output = object.forward(output)
+            out = object.forward(out)
 
-        return output
+        return out
 
     def backward_pass(self, grad: np.ndarray) -> np.ndarray:
 

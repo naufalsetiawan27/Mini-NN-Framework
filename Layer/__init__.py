@@ -1,1 +1,2 @@
-from .fc import FC
+from .layer import Layer
+from .fullyConnected import FullyConnected
