@@ -6,6 +6,7 @@ from Layer import *
 from Activation import Sigmoid, ReLU
 from Loss import MSE
 from Optimizer import SGD
+from Dropout import Dropout
 
 def main():
     # data
@@ -20,39 +21,25 @@ def main():
     # model
     model = MLP([FullyConnected(n_features,n_features),
                  ReLU(),
+                #  Dropout(prob = 0.5),
+                 FullyConnected(n_features,n_features),
+                 ReLU(),
+                #  Dropout(prob = 0.5),
                  FullyConnected(n_features,1)])
     
     print(f"w_0 = {model.objects[0].weights}")
 
-    loss_func = MSE()
-    opt = SGD(lr = 0.1)
-    epochs = 100
-    losses = []
-    for _ in range(epochs):
-        print(f"EPOCH: {_+1}/{epochs}")
-
-        # forward pass
-        logits = model.forward_pass(X)
-
-        # calculate loss
-        loss = loss_func.forward(logits, Y)
-        print(f"loss= {loss}")
-        losses.append(loss)
-
-        # backpropagation
-        grad = loss_func.backward(logits, Y)
-        model.backward_pass(grad)
-
-        # update parameters
-        for layer in model.objects:
-            if isinstance(layer, Layer):
-                opt.update_params(layer.weights, layer.dzdw)
-                opt.update_params(layer.bias, layer.dzdb)
-
+    model.train(
+        X, 
+        Y, 
+        loss_function= "mse",
+        optimizer= "sgd",
+        epochs=100,
+        lr = 0.2
+    )
     print(f"w_1 = {model.objects[0].weights}")
 
-    plt.plot(losses)
+    plt.plot(model.loss_history)
     plt.show()
-    return logits
 
 main()
